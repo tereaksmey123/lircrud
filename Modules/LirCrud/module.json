@@ -1,0 +1,11 @@
+{
+    "name": "LirCrud",
+    "alias": "lircrud",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\LirCrud\\app\\Providers\\LirCrudServiceProvider"
+    ],
+    "files": []
+}
