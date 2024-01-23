@@ -52,23 +52,6 @@ class LirCrud
      */
     const FORM_REQUEST = 'FORM_REQUEST';
 
-    public static function appServiceProviderBoot(): void
-    {
-        // Route::mixin(new RouteMacro);
-    }
-
-    public static function getCrudPanel($namespaceOnly = false)
-    {
-        $class = config(self::MNAME.'.classes.crud')
-            ?: \Modules\LirCrud\app\Supports\CrudPanel\Crud::class;
-
-        if ($namespaceOnly) {
-            return $class;
-        }
-
-        return app($class);
-    }
-
     // public static function getFilterPanel()
     // {
     //     $class = config(self::MNAME.'.classes.filter')
@@ -90,19 +73,6 @@ class LirCrud
     //     return config(self::MNAME.'.enforce_rule_after_operation_model_scope')
     //         ?: self::ENFORCE_RULE_AFTER_OPERATION_MODEL_SCOPE;
     // }
-
-    /**
-     * Translate the given message.
-     *
-     * @param  string|null  $key
-     * @param  array  $replace
-     * @param  string|null  $locale
-     * @return string|array|null
-     */
-    public static function lang($key, $replace = [], $local = null)
-    {
-        return __(self::MNAME_SYMBOL.'default.'.$key, $replace, $local);
-    }
 
     // public static function defaultJsonResource(): string
     // {

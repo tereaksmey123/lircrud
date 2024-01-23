@@ -1,0 +1,11 @@
+{
+    "name": "LirSetting",
+    "alias": "lirsetting",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\LirSetting\\app\\Providers\\LirSettingServiceProvider"
+    ],
+    "files": []
+}

@@ -2,10 +2,13 @@
 import { create } from 'zustand'
 import { persist } from "zustand/middleware";
 
+const LIGHT = 'light'
+const DARK = 'dark'
+
 const useThemeStore = create(
   persist(
     (set, get) => ({
-      theme: 'light',
+      theme: LIGHT,
       setTheme: (state) => {
         get().addClassToBody(state)
 
@@ -13,10 +16,9 @@ const useThemeStore = create(
       },
       addClassToBody: (theme = false) => {
         // add class to body for tailwind dark mode
-        document.body.classList.remove('dark')
-        document.body.classList.remove('light')
-        
-        document.body.classList.add(theme ? theme : get().theme)
+        document.body.classList.remove(DARK)
+        document.body.classList.remove(LIGHT)
+        document.body.classList.add(theme || get().theme)
       }
     }),
     {name: 'lircrudThemeStore'},

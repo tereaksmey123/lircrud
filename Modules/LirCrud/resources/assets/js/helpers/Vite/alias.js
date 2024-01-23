@@ -40,17 +40,17 @@ const importFromJs = async (fileName) => {
  * @param {String|Array} fileName - with extension
  * @returns {object}
  */
-async function combine(fileName = 'component.js') {
+const combine = async (fileName = 'component.js') => {
   let componentAlias = {}
 
   if (Array.isArray(fileName)) {
     for (const name of fileName) {
-      let alias = await importFromJs(name)
+      let alias = await importFromJs(name).then(res => res)
 
       componentAlias = {...componentAlias, ...alias}
     }
   } else {
-    const alias = await importFromJs(fileName)
+    const alias = await importFromJs(fileName).then(res => res)
 
     componentAlias = {...componentAlias, ...alias}
   }
@@ -64,8 +64,8 @@ async function combine(fileName = 'component.js') {
  * @param {Array} fileNames - with extension
  * @returns {object}
  */
-const alias = async (fileNames = []) => {
-  return await combine([
+const alias = (fileNames = []) => {
+  return combine([
     ...[
       'component.js',
       'helpers.js',

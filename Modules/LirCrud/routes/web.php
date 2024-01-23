@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\LirCrud\app\Http\Controllers\Admin\UserController;
 use Modules\LirCrud\app\Http\Controllers\Auth\LoginController;
 use Modules\LirCrud\app\Http\Controllers\Admin\DashboardController;
 
@@ -29,4 +30,7 @@ Route::group([
 ], function () {
     Route::redirect('/', 'admin/dashboard');
     Route::get('dashboard', DashboardController::class);
+
+    Route::lircrud('user', UserController::class);
+    // Route::get('user', [UserController::class, 'index']);
 });

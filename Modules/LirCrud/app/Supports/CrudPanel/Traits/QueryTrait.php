@@ -140,7 +140,7 @@ trait QueryTrait
 
         if ($perPage > $maxPerPage) {
             $perPage = $maxPerPage;
-        } 
+        }
 
         return $this->query->paginate($perPage);
     }

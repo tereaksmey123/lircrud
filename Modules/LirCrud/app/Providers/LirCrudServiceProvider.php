@@ -5,8 +5,9 @@ namespace Modules\LirCrud\app\Providers;
 use Modules\LirCrud\app\LirCrud;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
-use Modules\LirCrud\app\Macro\RouteMacro;
 use Illuminate\Support\ServiceProvider;
+use Modules\LirCrud\app\Macro\RouteMacro;
+use Modules\LirCrud\app\Supports\Facades\Crud;
 
 class LirCrudServiceProvider extends ServiceProvider
 {
@@ -34,10 +35,9 @@ class LirCrudServiceProvider extends ServiceProvider
     {
         // register CrudPanel
         $this->app->singleton(
-            $crudPanel = LirCrud::getCrudPanel(true),
-            function ($app) use ($crudPanel) {
-                return new $crudPanel($app);
-            }
+            Crud::class,
+            // $crudPanel = LirCrud::getCrudPanel(true),
+            fn ($app) =>  new \Modules\LirCrud\app\Supports\CrudPanel\Crud($app)
         );
 
         Route::mixin(new RouteMacro);

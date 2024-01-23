@@ -6,19 +6,18 @@ use Illuminate\Support\Str;
 
 trait LoadMethodBySetupPatternTrait
 {
-    /**
-     * @var string must be a namespace
-     */
-    protected $loadMethodBySetupPatternClass;
-
-    public function loadMethodBySetupPattern(string $startWord, string $endWord, callable $callback)
-    {
-        if (! $class = $this->loadMethodBySetupPatternClass) {
-            $class = self::class;
+    public function loadMethodBySetupPattern(
+        string $startWord,
+        string $endWord,
+        callable $callback,
+        false|string $namespace = false
+    ) {
+        if (! $namespace) {
+            $namespace = self::class;
         }
         
         collect(
-            (new \ReflectionClass($class))->getMethods()
+            (new \ReflectionClass($namespace))->getMethods()
         )->filter(function ($v) use ($startWord, $endWord) {
             return $v->getName() != ($startWord.$endWord)
                 && Str::startsWith($v->getName(), $startWord)

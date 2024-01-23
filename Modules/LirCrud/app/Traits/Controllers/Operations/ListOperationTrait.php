@@ -2,7 +2,9 @@
 
 namespace Modules\LirCrud\app\Traits\Controllers\Operations;
 
+use Inertia\Inertia;
 use Illuminate\Support\Str;
+use Modules\LirCrud\app\LirCrud;
 use Modules\BaseApiCore\BaseApiCore;
 use Illuminate\Support\Facades\Route;
 
@@ -23,9 +25,10 @@ trait ListOperationTrait
         ];
 
         if (Str::lower($extraData[$operation]['route_method'] ?? '') == 'post') {
-           Route::post($segment.'/list', $routeArray);
+            Route::post($segment.'/list', $routeArray);
         } else {
             Route::get($segment.'/', $routeArray);
+            Route::post($segment.'/search',  $controller.'@search');
         }
     }
 
@@ -49,19 +52,24 @@ trait ListOperationTrait
         
         return $this->crud->getDefaultJsonResource()::collection($data)->additional(array_merge(
             ['message' => $this->crud->getLanguageOperationSetting($key = 'success_retrieve')
-                ?: BaseApiCore::facade()::lang($key)],
+                ?: LirCrud::lang($key)],
             $additional
         ));
     }
 
     public function list()
     {
+        return inertia('LirCrud::CrudList');
+    }
+
+    public function search()
+    {
         $this->crud->hasAccessOrFail('list');
         
-        $this->crud->applySearchTerm();
+        // $this->crud->applySearchTerm();
 
-        return $this->setupListJsonResource(
-            request()->has('limit') || request()->has('offset')
+        // return $this->setupListJsonResource(
+            return request()->has('limit') || request()->has('offset')
                 ? $this->crud->skipTakeGet(
                     $this->crud->getOperationSetting('offset'),
                     $this->crud->getOperationSetting('limit')
@@ -69,7 +77,7 @@ trait ListOperationTrait
                 : $this->crud->paginate(
                     $this->crud->getOperationSetting('minPerPage'),
                     $this->crud->getOperationSetting('maxPerPage')
-                )
-        );
+                );
+        // );
     }
 }

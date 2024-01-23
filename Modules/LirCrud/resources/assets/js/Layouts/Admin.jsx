@@ -37,10 +37,12 @@ export default function AdminLayout({ children }) {
           Menu: {
             itemMarginBlock: 0,
             itemMarginInline: 0,
+            itemBorderRadius: 0,
+            subMenuItemBorderRadius: 0
           },
         },
         token: {
-          borderRadius: 0,
+          // borderRadius: 0,
         },
         // cssVar: true,
         hashed: false,

@@ -1,11 +1,12 @@
 import fs from 'fs/promises';
 import path from 'path';
 
-async function collectModuleAssetsPaths(paths, modulesPath) {
-  modulesPath = path.join(__dirname, modulesPath);
+async function pathLoader(paths, modulesPath) {
+  modulesPath = path.join(__dirname, '../../../../../../../'+modulesPath);
 
-  const moduleStatusesPath = path.join(__dirname, 'modules_statuses.json');
+  const moduleStatusesPath = path.join(__dirname, '../../../../../../../modules_statuses.json');
   let resolvelists = [];
+
   try {
     // Read module_statuses.json
     const moduleStatusesContent = await fs.readFile(moduleStatusesPath, 'utf-8');
@@ -24,20 +25,26 @@ async function collectModuleAssetsPaths(paths, modulesPath) {
       // Check if the module is enabled (status is true)
       if (moduleStatuses[moduleDir] === true) {
         const viteConfigPath = path.join(modulesPath, moduleDir, 'vite.config.js');
-        const stat = await fs.stat(viteConfigPath);
-        
-        if (stat.isFile()) {
           // Import the module-specific Vite configuration
           const moduleConfig = await import(viteConfigPath);
-          
-          if (moduleConfig.alias) {
-            resolvelists = moduleConfig.alias;
+
+          // pushItems(moduleConfig, paths, resolvelists)
+
+          resolvelists = Object.assign(
+            resolvelists,
+            {[`@/Modules/${moduleDir}`]: `/Modules/${moduleDir}/resources/assets/js`}
+          )
+
+          if (moduleConfig.alias && moduleConfig.alias instanceof Object) {
+            resolvelists = Object.assign(
+              resolvelists,
+              moduleConfig.alias
+            )
           }
 
           if (moduleConfig.paths && Array.isArray(moduleConfig.paths)) {
-            paths.push(...moduleConfig.paths);
+            paths.push(...moduleConfig.paths)
           }
-        }
       }
     }
   } catch (error) {
@@ -47,4 +54,4 @@ async function collectModuleAssetsPaths(paths, modulesPath) {
   return {paths, resolvelists};
 }
 
-export default collectModuleAssetsPaths;
+export default pathLoader;

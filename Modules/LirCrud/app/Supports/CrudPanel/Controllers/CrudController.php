@@ -3,14 +3,11 @@
 namespace  Modules\LirCrud\app\Supports\CrudPanel\Controllers;
 
 use Illuminate\Support\Str;
-use Modules\LirCrud\LirCrud;
 use App\Http\Controllers\Controller;
+use Modules\LirCrud\app\Supports\Facades\Crud;
 
 class CrudController extends Controller
 {
-    // use \Modules\LirCrud\app\Traits\Controllers\SetupRouteTrait;
-    // use \Modules\LirCrud\app\Traits\Controllers\SetupDefaultTrait;
-    // use \Modules\LirCrud\app\Traits\Controllers\SetupOperationTrait;
     use \Modules\LirCrud\app\Traits\Controllers\ResponseTrait;
     use \Modules\LirCrud\app\Traits\LoadMethodBySetupPatternTrait;
 
@@ -23,13 +20,13 @@ class CrudController extends Controller
         }
         
         $this->middleware(function ($request, $next) {
-            $this->crud = LirCrud::getCrudPanel();
+            $this->crud = app(Crud::class);
             $this->setupDefaults();
             $this->setup();
             $this->setupConfigurationForCurrentOperation();
 
             // if (! $this->crud->getOperationSetting(LirCrud::DISABLE_ENFORCE_RULE_AFTER_OPERATION)) {
-            //     $this->enforceRuleAfterOperation();
+            //     $this->enforceRuleAfterOperation()
             // }
 
             return $next($request);
@@ -45,14 +42,15 @@ class CrudController extends Controller
      */
     public function setupRoutes($segment, $controller, $extraData): void
     {
-        $this->loadMethodBySetupPatternClass = $controller;
-
-        $this->loadMethodBySetupPattern('setup', 'Routes', function ($methodName) use ($segment, $controller, $extraData) {
-            $this->{$methodName}($segment, $controller, $extraData);
-        });
+        $this->loadMethodBySetupPattern(
+            'setup',
+            'Routes',
+            fn ($methodName) => $this->{$methodName}($segment, $controller, $extraData),
+            $controller
+        );
     }
 
-    public function setupDefaults(): void
+    public function setupDefaults()
     {
         // only run when it has operation name
         if ($operationName = $this->crud->getCurrentOperation()) {
@@ -73,7 +71,6 @@ class CrudController extends Controller
     protected function setupConfigurationForCurrentOperation()
     {
         $operationName = $this->crud->getCurrentOperation();
-        $setupClassName = 'setup'.Str::studly($operationName).'Operation';
 
         /*
          * FIRST, run all Operation Closures for this operation.
@@ -90,20 +87,10 @@ class CrudController extends Controller
         /*
          * THEN, run the corresponding setupXxxOperation if it exists.
          */
-        if (method_exists($this, $setupClassName)) {
+        if (method_exists($this, $setupClassName = 'setup'.Str::studly($operationName).'Operation')) {
             $this->{$setupClassName}();
         }
     }
-
-    // protected function enforceRuleAfterOperation()
-    // {
-    //     $this->crud->addClause(LirCrud::enforceRuleAfterOperationModelScope());
-    // }
-
-    // protected function disableEnforceRuleAfterOperation()
-    // {
-    //     $this->crud->setOperationSetting(LirCrud::DISABLE_ENFORCE_RULE_AFTER_OPERATION, true);
-    // }
     
     public function setup()
     {

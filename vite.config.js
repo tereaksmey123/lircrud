@@ -2,30 +2,32 @@
 import { defineConfig } from 'vite'
 import laravel from 'laravel-vite-plugin'
 import react from '@vitejs/plugin-react'
-import collectModuleAssetsPaths from './vite-module-loader.js'
 
-import lircrudAllAlias from './Modules/LirCrud/resources/assets/js/helpers/Vite/alias.js'
+import lircrudComponentAlias from './Modules/LirCrud/resources/assets/js/helpers/Vite/alias.js'
+import lircrudPathLoader from './Modules/LirCrud/resources/assets/js/helpers/Modules/path-loader.js'
+
 
 async function getConfig() {
-    const paths = [
+    const {paths, resolvelists} = await lircrudPathLoader([
         'resources/css/app.css',
         'resources/js/app.jsx',
-    ];
-    const {paths: allPaths, resolvelists} = await collectModuleAssetsPaths(paths, 'Modules')
-    const lircrudAlias = await lircrudAllAlias()
-    
+    ], 'Modules')
+
+    // .then to resolve eslint await
+    const lircrudAlias = await lircrudComponentAlias().then(res => res)
+    // console.log(resolvelists, paths)
     return defineConfig({
         plugins: [
             laravel({
-                input: allPaths,
+                input: paths,
                 refresh: true,
             }),
             react(),
         ],
         resolve: {
             alias: {
-                ...resolvelists,
-                ...lircrudAlias,
+                ...resolvelists, // @/Modules
+                ...lircrudAlias, // @/lircrud
                 '@/root': '/resources/js'
             }
         }

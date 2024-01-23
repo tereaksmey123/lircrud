@@ -43,7 +43,7 @@ export default function Admin() {
                 key: 'User',
                 // icon: <UserOutlined />,
                 label: 'User',
-                onClick: (e) => setActiveMenu(e)
+                onClick: (e) => setActiveMenu(e, '/admin/user')
               },
               {
                 key: 'Role',

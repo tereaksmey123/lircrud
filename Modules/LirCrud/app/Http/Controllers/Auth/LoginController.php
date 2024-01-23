@@ -14,6 +14,7 @@ use Modules\LirCrud\app\Supports\Validate\ValidateTransform;
 
 class LoginController extends Controller
 {
+    // use AuthenticatesUsers;
     /**
      * Display a listing of the resource.
      */

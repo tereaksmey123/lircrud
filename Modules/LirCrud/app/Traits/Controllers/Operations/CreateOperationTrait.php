@@ -2,8 +2,8 @@
 
 namespace Modules\LirCrud\app\Traits\Controllers\Operations;
 
-use Modules\BaseApiCore\BaseApiCore;
 use Illuminate\Support\Facades\Route;
+use Modules\LirCrud\app\Supports\Facades\Crud;
 
 trait CreateOperationTrait
 {
@@ -15,13 +15,17 @@ trait CreateOperationTrait
      */
     protected function setupCreateRoutes($segment, $controller, $extraData, $operation = 'create')
     {
-        if ($extraData) {
+        if (isset($extraData['create'])) {
             // fix sonar bro
-        } 
+        }
 
-        Route::post($segment.'/', [
-            // 'as'        => $segment.'.index',
-            'uses'      => $controller.'@'.$operation,
+        Route::get($segment.'/create', [
+            'uses' => $controller.'@'.$operation,
+            'operation' => $operation,
+        ]);
+
+        Route::post($segment.'/store', [
+            'uses' => $controller.'@store',
             'operation' => $operation,
         ]);
     }
@@ -31,30 +35,24 @@ trait CreateOperationTrait
         $this->crud->allowAccess('create');
     }
 
-    /**
-     * Manipulating Json Response
-     *
-     * @param Model::create $data
-     */
-    protected function setupCreateJsonResource($data, array $additional = [])
-    {
-        return (new ($this->crud->getDefaultJsonResource())($data))->additional(array_merge(
-            ['message' => $this->crud->getLanguageOperationSetting($key = 'success_create')
-                ?: BaseApiCore::facade()::lang($key)],
-            $additional
-        ));
-    }
-
     public function create()
     {
-        $this->crud->hasAccessOrFail('create');
+        Crud::hasAccessToAny(['a']);
+        Crud::hasAccessOrFail('create1');
+
+        return inertia('LirCrud::CrudCreate');
         
-        $this->crud->validateRequest();
+        // $this->crud->validateRequest();
 
-        $this->crud->entry = $this->crud->model->create(
-            $this->crud->getStrippedSaveRequest()
-        );
+        // $this->crud->entry = $this->crud->model->create(
+        //     $this->crud->getStrippedSaveRequest()
+        // );
 
-        return $this->setupCreateJsonResource($this->crud->entry);
+        // return $this->setupCreateJsonResource($this->crud->entry);
+    }
+
+    public function store()
+    {
+        
     }
 }
