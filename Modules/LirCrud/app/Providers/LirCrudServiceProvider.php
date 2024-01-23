@@ -2,7 +2,6 @@
 
 namespace Modules\LirCrud\app\Providers;
 
-use Modules\LirCrud\app\LirCrud;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -50,7 +49,7 @@ class LirCrudServiceProvider extends ServiceProvider
      */
     protected function registerCommands(): void
     {
-        // $this->commands([]);
+        // $this->commands([])
     }
 
     /**
@@ -59,8 +58,8 @@ class LirCrudServiceProvider extends ServiceProvider
     protected function registerCommandSchedules(): void
     {
         // $this->app->booted(function () {
-        //     $schedule = $this->app->make(Schedule::class);
-        //     $schedule->command('inspire')->hourly();
+        //     $schedule = $this->app->make(Schedule::class)
+        //     $schedule->command('inspire')->hourly()
         // });
     }
 
@@ -85,7 +84,12 @@ class LirCrudServiceProvider extends ServiceProvider
      */
     protected function registerConfig(): void
     {
-        $this->publishes([module_path($this->moduleName, 'config/config.php') => config_path($this->moduleNameLower.'.php')], 'config');
+        $this->publishes([
+            module_path(
+                $this->moduleName, 'config/config.php') => config_path($this->moduleNameLower.'.php')
+            ],
+            'config'
+        );
         $this->mergeConfigFrom(module_path($this->moduleName, 'config/config.php'), $this->moduleNameLower);
     }
 
@@ -101,7 +105,15 @@ class LirCrudServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), $this->moduleNameLower);
 
-        $componentNamespace = str_replace('/', '\\', config('modules.namespace').'\\'.$this->moduleName.'\\'.config('modules.paths.generator.component-class.path'));
+        $componentNamespace = str_replace(
+            '/',
+            '\\',
+            config('modules.namespace')
+                .'\\'
+                .$this->moduleName
+                .'\\'
+                .config('modules.paths.generator.component-class.path')
+        );
         Blade::componentNamespace($componentNamespace, $this->moduleNameLower);
     }
 

@@ -17,81 +17,8 @@ class LirCrud
      */
     const MNAME_SYMBOL = self::MNAME.'::';
 
-    // /**
-    //  * @var string key name on request()
-    //  */
-    // const CURRENT_ON_RESPONSE_FIELD_NAME = 'current_on_response_field_name';
-
-    // /**
-    //  * @var string key name on request()
-    //  */
-    // const CURRENT_ON_RESPONSE_TO_EMPTY = 'current_on_response_to_empty';
-
-    // /**
-    //  * @var string Operation setting name
-    //  */
-    // const DISABLE_ENFORCE_RULE_AFTER_OPERATION = 'disableEnforceRuleAfterOperation';
-
-    // /**
-    //  * @var string Operation setting name
-    //  */
-    // const DISABLE_SEARCH_FILTER_PROTECTION_FROM_BACKEND = 'disableSearchFilterProtectionFromBackend';
-
-    // /**
-    //  * @var string Operation setting name
-    //  */
-    // const DISABLE_AUTO_SEARCH_FILTER_FROM_REQUEST = 'disableAutoSearchFilterFromRequest';
-
-    // /**
-    //  * @var string model method scope name
-    //  */
-    // const ENFORCE_RULE_AFTER_OPERATION_MODEL_SCOPE = 'WithSharing';
-
     /**
      * @var string Operation setting name
      */
     const FORM_REQUEST = 'FORM_REQUEST';
-
-    // public static function getFilterPanel()
-    // {
-    //     $class = config(self::MNAME.'.classes.filter')
-    //         ?: \Modules\BaseApiCore\Supports\FilterPanel::class;
-
-    //     return new $class;
-    // }
-
-    // public static function getAggregatePanel(): object
-    // {
-    //     $class = config(self::MNAME.'.panel_class.aggregate')
-    //         ?: \Modules\BaseApiCore\Supports\AggregatePanel::class;
-        
-    //     return new $class;
-    // }
-
-    // public static function enforceRuleAfterOperationModelScope(): string
-    // {
-    //     return config(self::MNAME.'.enforce_rule_after_operation_model_scope')
-    //         ?: self::ENFORCE_RULE_AFTER_OPERATION_MODEL_SCOPE;
-    // }
-
-    // public static function defaultJsonResource(): string
-    // {
-    //     return config(self::MNAME.'.resource_class.default_json_resource')
-    //         ?: \Modules\BaseApiCore\Http\Resources\DefaultJsonResource::class;
-    // }
-
-    // public static function defaultOnRelationJsonResource(): string
-    // {
-    //     return config(self::MNAME.'.resource_class.default_on_relation_json_resource')
-    //         ?: \Modules\BaseApiCore\Http\Resources\DefaultOnRelationJsonResource::class;
-    // }
-
-    // public static function registerCommands()
-    // {
-    //     return config(self::MNAME.'.commands') ?: [
-    //         \Modules\BaseApiCore\Console\ControllerCommand::class,
-    //         \Modules\BaseApiCore\Console\OperationCommand::class,
-    //         \Modules\BaseApiCore\Console\ResourceCommand::class
-    //     ];
-    // }
 }
