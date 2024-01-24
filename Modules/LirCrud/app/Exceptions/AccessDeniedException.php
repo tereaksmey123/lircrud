@@ -14,16 +14,12 @@ class AccessDeniedException extends Exception
      */
     public function render($request)
     {
-        // if (! $request->expectsJson()) {
-        //     return parent::__construct();
-        // }
+        if (! $request->inertia() && $request->expectsJson()) {
+            return response()->json(['message' => $this->message], 403);
+        }
 
         return inertia('LirCrud::ErrorPage', [
             'status' => 403
         ]);
-
-        // dd(request()->inertia());
-        
-        return response()->json(['message' => $this->message], 403);
     }
 }
