@@ -43,7 +43,7 @@ class HandleInertiaRequests extends Middleware
 
     public function rootView(Request $request)
     {
-        if(request()->is('admin/*') or request()->is('admin'))
+        if(request()->is('admin/*') || request()->is('admin'))
         {
             return 'lircrud::admin';
         }
