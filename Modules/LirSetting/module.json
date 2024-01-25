@@ -7,5 +7,7 @@
     "providers": [
         "Modules\\LirSetting\\app\\Providers\\LirSettingServiceProvider"
     ],
-    "files": []
+    "files": [
+        "app/helper.php"
+    ]
 }

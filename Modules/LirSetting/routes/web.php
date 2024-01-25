@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\LirSetting\app\Http\Controllers\LirSettingController;
+use Modules\LirSetting\app\Http\Controllers\Admin\SettingCrudController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +13,11 @@ use Modules\LirSetting\app\Http\Controllers\LirSettingController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::group([], function () {
-    Route::resource('lirsetting', LirSettingController::class)->names('lirsetting');
-});
+if (config('lirsetting.crud_ui_enable')) {
+    Route::group([
+        'prefix' => 'admin',
+        'middleware' => ['web', 'auth']
+    ], function () {
+        Route::lircrud('setting', SettingCrudController::class);
+    });
+}

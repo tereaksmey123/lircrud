@@ -3,7 +3,9 @@
 namespace Modules\LirSetting\app\Providers;
 
 use Illuminate\Support\Facades\Blade;
+use Modules\LirSetting\app\LirSetting;
 use Illuminate\Support\ServiceProvider;
+use Modules\LirSetting\app\Facades\Setting;
 
 class LirSettingServiceProvider extends ServiceProvider
 {
@@ -29,6 +31,8 @@ class LirSettingServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->singleton(Setting::class, LirSetting::model());
+        
         $this->app->register(RouteServiceProvider::class);
     }
 
@@ -37,7 +41,7 @@ class LirSettingServiceProvider extends ServiceProvider
      */
     protected function registerCommands(): void
     {
-        // $this->commands([]);
+        // $this->commands([])
     }
 
     /**
@@ -46,8 +50,8 @@ class LirSettingServiceProvider extends ServiceProvider
     protected function registerCommandSchedules(): void
     {
         // $this->app->booted(function () {
-        //     $schedule = $this->app->make(Schedule::class);
-        //     $schedule->command('inspire')->hourly();
+        //     $schedule = $this->app->make(Schedule::class)
+        //     $schedule->command('inspire')->hourly()
         // });
     }
 
@@ -72,7 +76,12 @@ class LirSettingServiceProvider extends ServiceProvider
      */
     protected function registerConfig(): void
     {
-        $this->publishes([module_path($this->moduleName, 'config/config.php') => config_path($this->moduleNameLower.'.php')], 'config');
+        $this->publishes([
+            module_path(
+                $this->moduleName, 'config/config.php') => config_path($this->moduleNameLower.'.php')
+            ],
+            'config'
+        );
         $this->mergeConfigFrom(module_path($this->moduleName, 'config/config.php'), $this->moduleNameLower);
     }
 
@@ -81,14 +90,22 @@ class LirSettingServiceProvider extends ServiceProvider
      */
     public function registerViews(): void
     {
-        $viewPath = resource_path('views/modules/'.$this->moduleNameLower);
+        // $viewPath = resource_path('views/modules/'.$this->moduleNameLower)
         $sourcePath = module_path($this->moduleName, 'resources/views');
 
-        $this->publishes([$sourcePath => $viewPath], ['views', $this->moduleNameLower.'-module-views']);
+        // $this->publishes([$sourcePath => $viewPath], ['views', $this->moduleNameLower.'-module-views'])
 
         $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), $this->moduleNameLower);
 
-        $componentNamespace = str_replace('/', '\\', config('modules.namespace').'\\'.$this->moduleName.'\\'.config('modules.paths.generator.component-class.path'));
+        $componentNamespace = str_replace(
+            '/',
+            '\\',
+            config('modules.namespace')
+                .'\\'
+                .$this->moduleName
+                .'\\'
+                .config('modules.paths.generator.component-class.path')
+        );
         Blade::componentNamespace($componentNamespace, $this->moduleNameLower);
     }
 
