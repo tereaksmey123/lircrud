@@ -9,6 +9,8 @@
 
 ## About LirCrud
 
+Currently, is just a template setup.
+
 LirCrud is a laravel framework include Insertia, React to create admin crud panel.
 
 Tool we use for admin panel
@@ -19,6 +21,7 @@ Tool we use for admin panel
 - [Ant Deisgn](#): Frontend UI library
 - [Tailwind](#): Frontend utility
 - [SWR](#): cache network request, (in plan)
+- [Typscript](#): type check
 
 feel free to use other frontend technology if above is not cover what you need. as it is a laravel framework.
 

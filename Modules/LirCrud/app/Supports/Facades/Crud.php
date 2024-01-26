@@ -5,6 +5,7 @@ namespace Modules\LirCrud\app\Supports\Facades;
 use Illuminate\Support\Facades\Facade;
 /**
  * @method static void setModel(string $modelNamespace)
+ * @method static void setTitle(string $singular, string|null $plurals = null)
  */
 class Crud extends Facade
 {

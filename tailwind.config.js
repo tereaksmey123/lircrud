@@ -8,12 +8,12 @@ export default {
     './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
     './storage/framework/views/*.php',
     './resources/views/**/*.blade.php',
-    './resources/js/**/*.jsx',
+    // './resources/js/**/*.jsx',
+    './resources/js/**/*.tsx',
     
-
-    "./Modules/*/resources/view/**/**/*.blade.php",
-    "./Modules/*/resources/assets/js/**/**/*.js",
-    "./Modules/*/resources/assets/js/**/**/*.jsx",
+    "./Modules/*/resources/view/**/*.blade.php",
+    // "./Modules/*/resources/assets/js/**/*.jsx",
+    "./Modules/*/resources/assets/js/**/*.tsx",
   ],
   theme: {
     extend: {},

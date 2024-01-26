@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Modules\LirCrud\app\Http\Controllers\Api\LocaleApiController;
 
 /*
     |--------------------------------------------------------------------------
@@ -17,3 +18,5 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware(['auth:sanctum'])->prefix('v1')->name('api.')->group(function () {
 //     Route::get('lircrud', fn (Request $request) => $request->user())->name('lircrud');
 // });
+
+Route::get('locales', [LocaleApiController::class, 'index']);

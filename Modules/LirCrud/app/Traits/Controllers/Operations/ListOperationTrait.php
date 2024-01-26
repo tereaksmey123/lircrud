@@ -18,18 +18,16 @@ trait ListOperationTrait
      */
     protected function setupListRoutes($segment, $controller, $extraData, $operation = 'list')
     {
-        $routeArray = [
-            // 'as'        => $segment.'.index',
-            'uses'      => $controller.'@'.$operation,
-            'operation' => $operation,
-        ];
+        $opt = ['operation' => $operation];
 
-        if (Str::lower($extraData[$operation]['route_method'] ?? '') == 'post') {
-            Route::post($segment.'/list', $routeArray);
-        } else {
-            Route::get($segment.'/', $routeArray);
-            Route::post($segment.'/search',  $controller.'@search');
-        }
+        Route::get($segment.'/', [
+            'uses' => $controller.'@'.$operation,
+            ...$opt
+        ]);
+        Route::post($segment.'/search',  [
+            'uses' => $controller.'@search',
+            ...$opt
+        ]);
     }
 
     protected function setupListDefault()
@@ -59,12 +57,19 @@ trait ListOperationTrait
 
     public function list()
     {
-        return inertia('LirCrud::CrudList');
+        return inertia('LirCrud::CrudList', [
+            ...$this->crud->inertiaShare()
+        ]);
     }
 
     public function search()
     {
         $this->crud->hasAccessOrFail('list');
+
+        return $this->crud->paginate(
+            $this->crud->getOperationSetting('minPerPage'),
+            $this->crud->getOperationSetting('maxPerPage')
+        );
         
         // $this->crud->applySearchTerm();
 

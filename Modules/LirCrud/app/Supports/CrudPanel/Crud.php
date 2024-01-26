@@ -2,6 +2,7 @@
 
 namespace Modules\LirCrud\app\Supports\CrudPanel;
 
+use Illuminate\Support\Str;
 use Modules\LirCrud\app\LirCrud;
 
 class Crud
@@ -15,6 +16,7 @@ class Crud
     use \Modules\LirCrud\app\Supports\CrudPanel\Traits\MacroableTrait;
     // use \Modules\BaseApiCore\Supports\CrudPanel\Traits\SearchTrait;
     // use \Modules\BaseApiCore\Supports\CrudPanel\Traits\DataByKeyTrait;
+    use \Modules\LirCrud\app\Supports\CrudPanel\Traits\InertiaTrait;
 
     public $model = "\App\Models\Entity";
     public $entry;
@@ -55,6 +57,18 @@ class Crud
         $this->model = new $modelNamespace();
         $this->query = $this->model->select('*');
         $this->entry = null;
+    }
+
+    /**
+     * Set page title
+     *
+     * @param string $singular
+     * @param null|string $plural
+     */
+    public function setTitle($singular, $plurals)
+    {
+        $this->set('pageTitle', $singular);
+        $this->set('pageTitles', $plurals);
     }
 
     public function lang($key, $replace = [], $local = null)
