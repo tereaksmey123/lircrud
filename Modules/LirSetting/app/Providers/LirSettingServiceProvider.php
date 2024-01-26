@@ -21,7 +21,6 @@ class LirSettingServiceProvider extends ServiceProvider
         $this->registerCommands();
         $this->registerCommandSchedules();
         $this->registerTranslations();
-        $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
     }
@@ -31,6 +30,8 @@ class LirSettingServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->registerConfig();
+        
         $this->app->singleton(Setting::class, LirSetting::model());
         
         $this->app->register(RouteServiceProvider::class);
