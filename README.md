@@ -16,7 +16,7 @@ LirCrud is a laravel framework include Insertia, React to create admin crud pane
 Tool we use for admin panel
 - [Laravel](#): Core framework
 - [Laravel Module](#): Organize and seperate code into a module
-- [Insertia](#): Frontend bridge
+- [Insertia React](#): Frontend bridge
 - [Zutstand](#): Frontend state management
 - [Ant Deisgn](#): UI library
 - [Tailwind](#): Frontend utility
