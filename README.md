@@ -18,12 +18,18 @@ Tool we use for admin panel
 - [Laravel Module](#): Organize and seperate code into a module
 - [Insertia](#): Frontend bridge
 - [Zutstand](#): Frontend state management
-- [Ant Deisgn](#): Frontend UI library
+- [Ant Deisgn](#): UI library
 - [Tailwind](#): Frontend utility
-- [SWR](#): cache network request
-- [Typscript](#): type check
+- [SWR](#): Cache network request
+- [Typscript](#): Type check
 
-feel free to use other frontend technology if above is not cover what you need. as it is a laravel framework.
+Feel free to use other frontend technology if above is not cover what you need. as it is a laravel framework.
+
+## NOTE
+- **No plan to convert to a package, and not to consider about it**
+- **Upgrade will be full replace**
+    - **Client-site: Depend on alias to allow override js/ts file without touching the core code**
+    - **Server-site: Depend on config OR bind container to override without touching the core code**
 
 <!-- ## Contributing
 
