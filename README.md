@@ -20,7 +20,7 @@ Tool we use for admin panel
 - [Zutstand](#): Frontend state management
 - [Ant Deisgn](#): Frontend UI library
 - [Tailwind](#): Frontend utility
-- [SWR](#): cache network request, (in plan)
+- [SWR](#): cache network request
 - [Typscript](#): type check
 
 feel free to use other frontend technology if above is not cover what you need. as it is a laravel framework.
