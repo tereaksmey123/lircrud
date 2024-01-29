@@ -2,18 +2,9 @@
 
 namespace Modules\LirCrud\app\Supports\CrudPanel\Traits;
 
-/**
- * Key-value store for operations.
- */
 trait SettingTrait
 {
-    // use \Modules\BaseApiCore\Supports\CrudPanel\Traits\SettingTrait\LanguageSettingTrait;
-    // use \Modules\BaseApiCore\Supports\CrudPanel\Traits\SettingTrait\DefaultSettingTrait;
-
-    /**
-     * @var array
-     */
-    protected $settings = [];
+    protected array $settings = [];
     
     public function get(string $key)
     {
@@ -34,37 +25,33 @@ trait SettingTrait
         return false;
     }
     
-    public function getOperationSetting(string $key, $operation = null)
+    /**
+     * Get setting, base on given operation or current operation
+     */
+    public function getOperationSetting(string $key, ?string $operation = null)
     {
         $operation = $operation ?? $this->getCurrentOperation();
 
         return $this->get($operation.'.'.$key) ?? null;
     }
-    
-    public function hasOperationSetting(string $key, $operation = null)
+
+    /**
+     * Check setting exists, base on given operation or current operation
+     */
+    public function hasOperationSetting(string $key, ?string $operation = null): bool
     {
         $operation = $operation ?? $this->getCurrentOperation();
 
         return $this->has($operation.'.'.$key);
     }
-    
-    public function setOperationSetting(string $key, $value, $operation = null)
+
+    /**
+     * Set setting, base on given operation or current operation
+     */
+    public function setOperationSetting(string $key, $value, ?string $operation = null)
     {
         $operation = $operation ?? $this->getCurrentOperation();
 
         return $this->set($operation.'.'.$key, $value);
-    }
-    
-    public function loadDefaultOperationSettingsFromConfig($configPath = null): void
-    {
-        $operation = $this->getCurrentOperation();
-        $configPath = $configPath ?? 'lircrud.operations.'.$operation;
-        $configSettings = config($configPath);
-
-        if (is_array($configSettings) && count($configSettings)) {
-            foreach ($configSettings as $key => $value) {
-                $this->setOperationSetting($key, $value);
-            }
-        }
     }
 }
