@@ -2,63 +2,39 @@
 
 namespace Modules\LirCrud\app\Supports\CrudPanel\Traits;
 
-use Modules\LirCrud\app\LirCrud;
 use Modules\LirCrud\app\Exceptions\AccessDeniedException;
 
 trait AccessTrait
 {
-    private $accessKey = 'access';
-    /**
-     * Set an operation as having access using the Settings API.
-     *
-     * @param  array  $operation
-     * @return bool
-     */
-    public function allowAccess($operation)
+    private string $setAccessKey = 'access';
+    
+    public function allowAccess(string|array $operations): bool
     {
-        foreach ((array) $operation as $op) {
-            $this->set($op.'.'.$this->accessKey, true);
+        foreach ((array) $operations as $op) {
+            $this->set($op.'.'.$this->setAccessKey, true);
         }
 
-        return $this->hasAccessToAll($operation);
+        return $this->hasAccessToAll($operations);
     }
 
-    /**
-     * Disable the access to a certain operation, or the current one.
-     *
-     * @param  array  $operation  [description]
-     * @return [type] [description]
-     */
-    public function denyAccess($operation)
+    public function denyAccess(string|array $operations): bool
     {
-        foreach ((array) $operation as $op) {
-            $this->set($op.'.'.$this->accessKey, false);
+        foreach ((array) $operations as $op) {
+            $this->set($op.'.'.$this->setAccessKey, false);
         }
 
-        return ! $this->hasAccessToAny($operation);
+        return ! $this->hasAccessToAny($operations);
     }
 
-    /**
-     * Check if a operation is allowed for a Crud Panel. Return false if not.
-     *
-     * @param  string  $operation
-     * @return bool
-     */
-    public function hasAccess($operation)
+    public function hasAccess(string $operation): bool
     {
-        return $this->get($operation.'.'.$this->accessKey) ?? false;
+        return $this->get($operation.'.'.$this->setAccessKey) ?? false;
     }
 
-    /**
-     * Check if any operations are allowed for a Crud Panel. Return false if not.
-     *
-     * @param  array  $operation_array
-     * @return bool
-     */
-    public function hasAccessToAny($operation_array)
+    public function hasAccessToAny(string|array $operations): bool
     {
-        foreach ((array) $operation_array as $operation) {
-            if ($this->get($operation.'.'.$this->accessKey) === true) {
+        foreach ((array) $operations as $op) {
+            if ($this->get($op.'.'.$this->setAccessKey) === true) {
                 return true;
             }
         }
@@ -66,16 +42,10 @@ trait AccessTrait
         return false;
     }
 
-    /**
-     * Check if all operations are allowed for a Crud Panel. Return false if not.
-     *
-     * @param  array  $operation_array  Permissions.
-     * @return bool
-     */
-    public function hasAccessToAll($operation_array)
+    public function hasAccessToAll(string|array $operations): bool
     {
-        foreach ((array) $operation_array as $operation) {
-            if (! $this->get($operation.'.'.$this->accessKey)) {
+        foreach ((array) $operations as $op) {
+            if (! $this->get($op.'.'.$this->setAccessKey)) {
                 return false;
             }
         }
@@ -83,20 +53,14 @@ trait AccessTrait
         return true;
     }
 
-    /**
-     * Check if a operation is allowed for a Crud Panel. Fail if not.
-     *
-     * @param  string  $operation
-     * @return bool
-     *
-     * @throws AccessDeniedException in case the operation is not enabled
-     */
-    public function hasAccessOrFail($operation)
+    public function hasAccessOrFail(string $operation): AccessDeniedException|bool
     {
-        if (! $this->get($operation.'.'.$this->accessKey)) {
+        if (! $this->get($operation.'.'.$this->setAccessKey)) {
             throw new AccessDeniedException(
-                // $this->get($operation.'.'.$this->accessKey)
-               $this->lang('deny_access_on_operation', ['operation' => $operation])
+                // $this->get($operation.'.'.$this->setAccessKey)
+                $this->lirTrans('default.deny_access_on_operation', [
+                    'operation' =>  $this->lirTrans('default.'.$operation)]
+                )
             );
         }
 
