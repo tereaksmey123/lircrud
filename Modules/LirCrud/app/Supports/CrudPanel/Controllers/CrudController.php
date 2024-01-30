@@ -53,7 +53,7 @@ class CrudController extends Controller
     public function setupDefaults()
     {
         // only run when it has operation name
-        if ($operationName = $this->crud->getCurrentOperation()) {
+        if ($operationName = $this->crud->getOperation()) {
             $method = 'setup'.Str::studly($operationName).'Default';
 
             if (method_exists($this, $method)) {
@@ -70,7 +70,7 @@ class CrudController extends Controller
      */
     protected function setupConfigurationForCurrentOperation()
     {
-        $operationName = $this->crud->getCurrentOperation();
+        $operationName = $this->crud->getOperation();
 
         /*
          * FIRST, run all Operation Closures for this operation.

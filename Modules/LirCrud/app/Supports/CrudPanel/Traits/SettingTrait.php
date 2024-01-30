@@ -6,52 +6,55 @@ trait SettingTrait
 {
     protected array $settings = [];
     
+    /**
+     * Get setting
+     */
     public function get(string $key)
     {
         return $this->settings[$key] ?? null;
     }
     
-    public function set(string $key, $value)
+    /**
+     * Set setting
+     *
+     * Prevent public access as it might lead to corrupted data.
+     * only allow within internal CRUD API itself
+     * IF NEED: You must introduce a new method throught macro to CRUD API
+     */
+    protected function set(string $key, $value)
     {
         return $this->settings[$key] = $value;
     }
     
+    /**
+     * Check setting key exists
+     */
     public function has(string $key): bool
     {
-        if (isset($this->settings[$key])) {
-            return true;
-        }
-
-        return false;
+        return isset($this->settings[$key]);
     }
     
     /**
-     * Get setting, base on given operation or current operation
+     * Get setting from operation
      */
-    public function getOperationSetting(string $key, ?string $operation = null)
+    public function getOperationSetting(string $key)
     {
-        $operation = $operation ?? $this->getCurrentOperation();
-
-        return $this->get($operation.'.'.$key) ?? null;
+        return $this->get($this->getOperation().'.'.$key) ?? null;
     }
 
     /**
-     * Check setting exists, base on given operation or current operation
+     * Check setting exists from operation
      */
-    public function hasOperationSetting(string $key, ?string $operation = null): bool
+    public function hasOperationSetting(string $key): bool
     {
-        $operation = $operation ?? $this->getCurrentOperation();
-
-        return $this->has($operation.'.'.$key);
+        return $this->has($this->getOperation().'.'.$key);
     }
 
     /**
-     * Set setting, base on given operation or current operation
+     * Set setting from operation
      */
-    public function setOperationSetting(string $key, $value, ?string $operation = null)
+    public function setOperationSetting(string $key, $value)
     {
-        $operation = $operation ?? $this->getCurrentOperation();
-
-        return $this->set($operation.'.'.$key, $value);
+        return $this->set($this->getOperation().'.'.$key, $value);
     }
 }

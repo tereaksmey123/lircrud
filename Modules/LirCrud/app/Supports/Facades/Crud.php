@@ -11,7 +11,7 @@ class Crud extends Facade
 {
     // /**
     //  * @method static setModel(string $modelNamespace)
-    //  * @method static set(string $key, $value = null)
+    //  * @method static setTitle(string $key, $value = null)
     //  */
     
     /**

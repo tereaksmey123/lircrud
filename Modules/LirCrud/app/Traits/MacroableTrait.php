@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\LirCrud\app\Supports\CrudPanel\Traits;
+namespace Modules\LirCrud\app\Traits;
 
 use Illuminate\Support\Traits\Macroable as IlluminateMacroable;
 

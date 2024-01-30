@@ -2,16 +2,15 @@
 
 namespace Modules\LirCrud\app\Supports\CrudPanel\Traits;
 
+use Modules\LirCrud\app\Supports\Enum\CrudApiEnum;
 use Modules\LirCrud\app\Exceptions\AccessDeniedException;
 
 trait AccessTrait
 {
-    private string $setAccessKey = 'access';
-    
     public function allowAccess(string|array $operations): bool
     {
         foreach ((array) $operations as $op) {
-            $this->set($op.'.'.$this->setAccessKey, true);
+            $this->set($op.'.'.CrudApiEnum::ACCESS->value, true);
         }
 
         return $this->hasAccessToAll($operations);
@@ -20,7 +19,7 @@ trait AccessTrait
     public function denyAccess(string|array $operations): bool
     {
         foreach ((array) $operations as $op) {
-            $this->set($op.'.'.$this->setAccessKey, false);
+            $this->set($op.'.'.CrudApiEnum::ACCESS->value, false);
         }
 
         return ! $this->hasAccessToAny($operations);
@@ -28,13 +27,13 @@ trait AccessTrait
 
     public function hasAccess(string $operation): bool
     {
-        return $this->get($operation.'.'.$this->setAccessKey) ?? false;
+        return $this->get($operation.'.'.CrudApiEnum::ACCESS->value) ?? false;
     }
 
     public function hasAccessToAny(string|array $operations): bool
     {
         foreach ((array) $operations as $op) {
-            if ($this->get($op.'.'.$this->setAccessKey) === true) {
+            if ($this->get($op.'.'.CrudApiEnum::ACCESS->value) === true) {
                 return true;
             }
         }
@@ -45,7 +44,7 @@ trait AccessTrait
     public function hasAccessToAll(string|array $operations): bool
     {
         foreach ((array) $operations as $op) {
-            if (! $this->get($op.'.'.$this->setAccessKey)) {
+            if (! $this->get($op.'.'.CrudApiEnum::ACCESS->value)) {
                 return false;
             }
         }
@@ -55,9 +54,9 @@ trait AccessTrait
 
     public function hasAccessOrFail(string $operation): AccessDeniedException|bool
     {
-        if (! $this->get($operation.'.'.$this->setAccessKey)) {
+        if (! $this->get($operation.'.'.CrudApiEnum::ACCESS->value)) {
             throw new AccessDeniedException(
-                // $this->get($operation.'.'.$this->setAccessKey)
+                // $this->get($operation.'.'.CrudApiEnum::ACCESS->value)
                 $this->lirTrans('default.deny_access_on_operation', [
                     'operation' =>  $this->lirTrans('default.'.$operation)]
                 )
