@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\LirCrud\app\Supports\CrudPanel\Traits;
+namespace Modules\LirCrud\app\Supports\CrudPanel\Crud;
 
 use Modules\LirCrud\app\LirCrud;
 use Modules\LirCrud\app\Exceptions\AccessDeniedException;

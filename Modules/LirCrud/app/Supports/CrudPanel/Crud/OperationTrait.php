@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\LirCrud\app\Supports\CrudPanel\Traits;
+namespace Modules\LirCrud\app\Supports\CrudPanel\Crud;
 
 use Illuminate\Support\Facades\Route;
 use Modules\LirCrud\app\Supports\Enum\CrudApiEnum;

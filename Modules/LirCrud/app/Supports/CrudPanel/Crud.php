@@ -8,17 +8,17 @@ use Modules\LirCrud\app\LirCrud;
 class Crud
 {
     use \Modules\LirCrud\app\Traits\DumpableTrait;
-    use \Modules\LirCrud\app\Supports\CrudPanel\Traits\AccessTrait;
-    // use \Modules\BaseApiCore\Supports\CrudPanel\Traits\AutoSetTrait;
-    use \Modules\LirCrud\app\Supports\CrudPanel\Traits\SettingTrait;
-    // use \Modules\BaseApiCore\Supports\CrudPanel\Traits\ValidationTrait;
-    use \Modules\LirCrud\app\Supports\CrudPanel\Traits\OperationTrait;
-    use \Modules\LirCrud\app\Supports\CrudPanel\Traits\QueryTrait;
+    use \Modules\LirCrud\app\Supports\CrudPanel\Crud\AccessTrait;
+    // use \Modules\BaseApiCore\Supports\CrudPanel\Crud\AutoSetTrait;
+    use \Modules\LirCrud\app\Supports\CrudPanel\Crud\SettingTrait;
+    // use \Modules\BaseApiCore\Supports\CrudPanel\Crud\ValidationTrait;
+    use \Modules\LirCrud\app\Supports\CrudPanel\Crud\OperationTrait;
+    use \Modules\LirCrud\app\Supports\CrudPanel\Crud\QueryTrait;
     use \Modules\LirCrud\app\Traits\MacroableTrait;
-    // use \Modules\BaseApiCore\Supports\CrudPanel\Traits\SearchTrait;
-    use \Modules\LirCrud\app\Supports\CrudPanel\Traits\DataByKeyTrait;
-    use \Modules\LirCrud\app\Supports\CrudPanel\Traits\InertiaTrait;
-    use \Modules\LirCrud\app\Supports\CrudPanel\Traits\TranslateTrait;
+    // use \Modules\BaseApiCore\Supports\CrudPanel\Crud\SearchTrait;
+    use \Modules\LirCrud\app\Supports\CrudPanel\Crud\PropertyTrait;
+    use \Modules\LirCrud\app\Supports\CrudPanel\Crud\InertiaTrait;
+    use \Modules\LirCrud\app\Supports\CrudPanel\Crud\TranslateTrait;
 
     public $model = "\App\Models\Entity";
     public $entry;

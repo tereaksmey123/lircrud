@@ -10,6 +10,11 @@ Enum CrudApiEnum: string
     case ACCESS = 'access';
 
     /**
+     * 
+     */
+    case PROPERTY_KEY = 'name';
+
+    /**
      * Operation key in setting & route
      */
     case OPERATION = 'operation';
