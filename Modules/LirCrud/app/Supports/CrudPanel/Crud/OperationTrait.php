@@ -3,7 +3,7 @@
 namespace Modules\LirCrud\app\Supports\CrudPanel\Crud;
 
 use Illuminate\Support\Facades\Route;
-use Modules\LirCrud\app\Supports\Enum\CrudApiEnum;
+use Modules\LirCrud\app\Supports\Enum\CrudEnum;
 
 trait OperationTrait
 {
@@ -15,7 +15,7 @@ trait OperationTrait
     public function getOperation(): string
     {
         return $this->operation
-            ?? Route::getCurrentRoute()->action[CrudApiEnum::OPERATION->value]
+            ?? Route::getCurrentRoute()->action[CrudEnum::OPERATION->value]
             ?? null;
     }
 
@@ -31,17 +31,17 @@ trait OperationTrait
     public function operation(string|array $operations, bool|\Closure $closure = false): void
     {
         foreach ((array) $operations as $operation) {
-            $configuration = (array) $this->get($operation.'.'.CrudApiEnum::CONFIGURATION->value);
+            $configuration = (array) $this->get($operation.'.'.CrudEnum::CONFIGURATION->value);
             $configuration[] = $closure;
 
-            $this->set($operation.'.'.CrudApiEnum::CONFIGURATION->value, $configuration);
+            $this->set($operation.'.'.CrudEnum::CONFIGURATION->value, $configuration);
         }
     }
 
     public function applyConfigurationFromSettings(string|array $operations): void
     {
         foreach ((array) $operations as $operation) {
-            $configuration = (array) $this->get($operation.'.'.CrudApiEnum::CONFIGURATION->value);
+            $configuration = (array) $this->get($operation.'.'.CrudEnum::CONFIGURATION->value);
 
             if (count($configuration)) {
                 foreach ($configuration as $closure) {

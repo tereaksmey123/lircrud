@@ -37,8 +37,7 @@ trait CreateOperationTrait
 
     public function create()
     {
-        Crud::hasAccessToAny(['a']);
-        Crud::hasAccessOrFail('create1');
+        Crud::hasAccessOrFail('create');
 
         return inertia('LirCrud::CrudCreate');
         

@@ -2,17 +2,12 @@
 
 namespace Modules\LirCrud\app\Supports\Enum;
 
-Enum CrudApiEnum: string
+Enum CrudEnum: string
 {
     /**
      * Access key in setting
      */
     case ACCESS = 'access';
-
-    /**
-     * 
-     */
-    case PROPERTY_KEY = 'name';
 
     /**
      * Operation key in setting & route

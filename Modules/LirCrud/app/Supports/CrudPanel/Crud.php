@@ -17,7 +17,7 @@ class Crud
     use \Modules\LirCrud\app\Traits\MacroableTrait;
     // use \Modules\BaseApiCore\Supports\CrudPanel\Crud\SearchTrait;
     use \Modules\LirCrud\app\Supports\CrudPanel\Crud\PropertyTrait;
-    use \Modules\LirCrud\app\Supports\CrudPanel\Crud\InertiaTrait;
+    use \Modules\LirCrud\app\Supports\CrudPanel\Crud\ResponseTrait;
     use \Modules\LirCrud\app\Supports\CrudPanel\Crud\TranslateTrait;
 
     public $model = "\App\Models\Entity";
@@ -53,9 +53,11 @@ class Crud
         $this->entry = null;
     }
 
-    public function setTitle(string $singular, string $plurals): void
+    public function setTitle(string $singular, string $plurals, bool $operation = true): void
     {
-        $this->set('pageTitle', Str::ucfirst($this->getOperation().' '.$singular));
-        $this->set('pageTitles', Str::ucfirst($this->getOperation().' '.$plurals));
+        $prefix = $operation ? $this->getOperation().' ' : '';
+        
+        $this->set('pageTitle', Str::ucfirst($prefix.$singular));
+        $this->set('pageTitles', Str::ucfirst($prefix.$plurals));
     }
 }

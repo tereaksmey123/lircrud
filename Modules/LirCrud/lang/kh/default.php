@@ -4,6 +4,7 @@ return [
     // A
     // B
     // C
+    'Call me' => 'Call me, please. KH',
     // D
     'deny_access_on_operation' => 'Deny access on operation :operation.',
     // E

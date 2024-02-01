@@ -19,7 +19,7 @@ class UserController extends \Modules\LirCrud\app\Supports\CrudPanel\Controllers
     public function setup()
     {
         Crud::setModel(User::class);
-        
+        Crud::setTitle('User', 'Users');
         /**
          * List of global disable operation setting
          * ----------------------------------------

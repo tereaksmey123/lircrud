@@ -4,7 +4,7 @@ namespace Modules\LirCrud\app\Supports\CrudPanel\Crud;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Modules\LirCrud\app\Supports\Enum\CrudApiEnum;
+use Modules\LirCrud\app\Supports\Enum\PropertyEnum;
 
 trait PropertyTrait
 {
@@ -78,12 +78,12 @@ trait PropertyTrait
         // Need to remove the property before add property
         // To make sure item is push into correct order
         // Base on developer code execute order
-        $this->removeProperty($key, $property[CrudApiEnum::PROPERTY_KEY->value]);
+        $this->removeProperty($key, $property[PropertyEnum::KEY->value]);
 
         // change from Arr::add() into Arr::set()
         $this->transformProperty($key, fn ($properties) => Arr::set(
             $properties,
-            $property[CrudApiEnum::PROPERTY_KEY->value],
+            $property[PropertyEnum::KEY->value],
             $property
         ));
     }
@@ -147,7 +147,7 @@ trait PropertyTrait
     /**
      * Get registered properties
      *
-     * * By default get a list of [CrudApiEnum::PROPERTY_KEY->value] in properties
+     * * By default get a list of [PropertyEnum::KEY->value] in properties
      * * Result will be vary base on $filter & $pluck
      * * * [value, ...]
      * * * [key<pluck[1]> => value<pluck[0]>]
@@ -166,6 +166,6 @@ trait PropertyTrait
             return Arr::pluck($properties, ...$pluck);
         }
 
-        return Arr::flatten(Arr::pluck($properties, CrudApiEnum::PROPERTY_KEY->value));
+        return Arr::flatten(Arr::pluck($properties, PropertyEnum::KEY->value));
     }
 }

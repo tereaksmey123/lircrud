@@ -2,7 +2,7 @@
 
 namespace Modules\LirCrud\app\Supports\CrudPanel\Crud;
 
-use Modules\LirCrud\app\Supports\Enum\CrudApiEnum;
+use Modules\LirCrud\app\Supports\Enum\CrudEnum;
 use Modules\LirCrud\app\Supports\CrudPanel\Translate;
 
 trait TranslateTrait
@@ -18,7 +18,7 @@ trait TranslateTrait
             throw new \InvalidArgumentException('Invalid Translate class: '.$classNamespace);
         }
 
-        $this->set(CrudApiEnum::SET_TRANSLATE->value, $classNamespace);
+        $this->set(CrudEnum::SET_TRANSLATE->value, $classNamespace);
     }
 
     /**
@@ -26,7 +26,7 @@ trait TranslateTrait
      */
     public function trans(string $key, array $replace = [], ?string $local = null): string
     {
-        return $this->get(CrudApiEnum::SET_TRANSLATE->value)::trans($key, $replace, $local);
+        return $this->get(CrudEnum::SET_TRANSLATE->value)::trans($key, $replace, $local);
     }
 
     /**
@@ -34,6 +34,6 @@ trait TranslateTrait
      */
     public function lirTrans(string $key, array $replace = [], ?string $local1 = null): string
     {
-        return $this->get(CrudApiEnum::SET_TRANSLATE->value)::lirTrans($key, $replace, $local1);
+        return $this->get(CrudEnum::SET_TRANSLATE->value)::lirTrans($key, $replace, $local1);
     }
 }

@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 use Modules\LirCrud\app\LirCrud;
 use Modules\BaseApiCore\BaseApiCore;
 use Illuminate\Support\Facades\Route;
+use Modules\LirCrud\app\Supports\Facades\Crud;
+use Modules\LirCrud\app\Supports\CrudPanel\Column;
 
 trait ListOperationTrait
 {
@@ -16,9 +18,9 @@ trait ListOperationTrait
      * @param string $segment
      * @param string $controller
      */
-    protected function setupListRoutes($segment, $controller, $extraData, $operation = 'list')
+    protected function setupListRoutes($segment, $controller, $extraData)
     {
-        $opt = ['operation' => $operation];
+        $opt = ['operation' => $operation = 'list'];
 
         Route::get($segment.'/', [
             'uses' => $controller.'@'.$operation,
@@ -32,57 +34,24 @@ trait ListOperationTrait
 
     protected function setupListDefault()
     {
-        $this->crud->allowAccess('list');
-    }
-
-    /**
-     * Manipulating Json Response
-     *
-     * @param Model::paginate $data
-     */
-    protected function setupListJsonResource($data, array $additional = [])
-    {
-        // Manipulate new field to $data
-        // $data->map(function ($v) {
-        //     $v->ddd = $v->contact;
-        //     return $v;
-        // })
-        
-        return $this->crud->getDefaultJsonResource()::collection($data)->additional(array_merge(
-            ['message' => $this->crud->getLanguageOperationSetting($key = 'success_retrieve')
-                ?: LirCrud::lang($key)],
-            $additional
-        ));
+        Crud::allowAccess('list');
+        Crud::setResponseSetting(Crud::class);
+        Crud::setResponseSetting(Column::class);
+        Crud::setOperationSetting('setListPage', 'LirCrud::CrudList');
     }
 
     public function list()
     {
-        return inertia('LirCrud::CrudList', [
-            ...$this->crud->inertiaShare()
-        ]);
+        return Crud::responsePage(page: Crud::getOperationSetting('setListPage'));
     }
 
     public function search()
     {
-        $this->crud->hasAccessOrFail('list');
+        Crud::hasAccessOrFail('list');
 
-        return $this->crud->paginate(
-            $this->crud->getOperationSetting('minPerPage'),
-            $this->crud->getOperationSetting('maxPerPage')
+        return Crud::paginate(
+             Crud::getOperationSetting('minPerPage'),
+             Crud::getOperationSetting('maxPerPage')
         );
-        
-        // $this->crud->applySearchTerm();
-
-        // return $this->setupListJsonResource(
-            return request()->has('limit') || request()->has('offset')
-                ? $this->crud->skipTakeGet(
-                    $this->crud->getOperationSetting('offset'),
-                    $this->crud->getOperationSetting('limit')
-                )
-                : $this->crud->paginate(
-                    $this->crud->getOperationSetting('minPerPage'),
-                    $this->crud->getOperationSetting('maxPerPage')
-                );
-        // );
     }
 }
