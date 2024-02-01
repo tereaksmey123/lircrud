@@ -22,22 +22,34 @@ const useTranslate = create<UseTranslate>()(
       setLocale: (locale) => set({locale}),
       
       __: (key, replace = false) => {
+        if (! key) {
+          return null
+        }
+
         const { data } = useSWRImmutable(
-            [baseUrl + '/api/locales', get().locale],
+            [baseUrl + '/api/locales', get().locale+'1'],
             ([url, locale]) => axios.get(url).then(res => res.data),
             { revalidateOnMount: true }
         )
+        
+        // generate modules prefix when contain ::
+        let [path, module] = key.split('::')
+        let newKey = path && module ? `modules.${path}.${module}` : key
 
         // when not found return last string after dot
-
         // default.reserve_at = reserve_at
         // modules.lircrud.default.reserve_at = reserve_at
         // reserve_at = reserve_at
-        const guessValue = key.split('.').reverse()[0] ?? key
+        // try {
+          const guessValue = newKey.split('.').reverse()[0] ?? key
+        // } catch (error) {
+        //   throw (key, error)
+        // }
+        // const guessValue = key.split('.').reverse()[0] ?? key
 
         // wrap with try cache to avoid undefine index during reduce() as request is not done yet.
         try {
-            return key.split('.').reduce((acc, curr) => acc[curr], data?.data) ?? guessValue
+            return newKey.split('.').reduce((acc, curr) => acc[curr], data?.data) ?? guessValue
         } catch (error) {
             return guessValue
         }
@@ -50,5 +62,7 @@ const useTranslate = create<UseTranslate>()(
     {name: appName + '_lircrudTranslateStore'},
   ),
 )
+
+// useTranslate.setState({locale: 'kh'})
 
 export {useTranslate}
