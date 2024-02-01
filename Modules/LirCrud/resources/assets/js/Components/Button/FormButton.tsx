@@ -1,17 +1,19 @@
 import {useEffect, useState} from 'react';
 import { Button, Form } from 'antd';
+import type {ButtonProps} from 'antd/lib/button/button';
+
 
 interface FormButton {
   form: any,
   watchProps?: Array<string>|string,
-  buttonProps?: any,
-  label: string
+  buttonProps?: ButtonProps,
+  label: string,
 }
 
 /** Antd Form */
 export default ({ form,  watchProps, buttonProps, label }: FormButton) => {
     const [submittable, setSubmittable] = useState(false)
-    const defaultButton = {
+    const defaultButton: ButtonProps = {
       type: 'primary',
       htmlType: 'submit',
       disabled: ! submittable,
@@ -32,7 +34,12 @@ export default ({ form,  watchProps, buttonProps, label }: FormButton) => {
         );
     }, [values]);
     return (
-      <Button {...{...defaultButton, ...buttonProps}}>
+      <Button
+        {...{
+          ...defaultButton,
+          ...buttonProps
+        }}
+      >
         {label ?? 'Submit'}
       </Button>
     );

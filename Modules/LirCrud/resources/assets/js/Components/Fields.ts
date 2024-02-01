@@ -1,12 +1,9 @@
-import React, {lazy} from 'react'
+import React, {lazy, LazyExoticComponent, ComponentType} from 'react'
 
-interface FieldComponents {
-  [key: string]: any
-}
-
-const FieldComponents: FieldComponents = {
-  'Field.Number': lazy(() => import('@/Modules/LirCrud/Components/Field/Number')),
+const FieldComponents: DynamicImportComponentObjectName = {
+  'Field.Number': lazy(() => import('@/Modules/LirCrud/Components/Field/Number')) ,
   'Field.Text': lazy(() => import('@/Modules/LirCrud/Components/Field/Text')),
+  'Columns.Section': lazy(() => import('@/Modules/LirCrud/Components/Column/Text')),
 }
 
 export {FieldComponents}

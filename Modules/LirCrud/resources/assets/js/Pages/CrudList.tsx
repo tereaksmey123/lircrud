@@ -6,7 +6,8 @@ import { Table, Row, Col, Button, App } from 'antd';
 import axios from 'axios'
 import {useTranslate} from '@/lircrud/Stores/useTranslate'
 import type { ColumnsType } from 'antd/es/table';
-// import {usePage} from '@inertiajs/inertia-react'
+
+import {usePage} from '@inertiajs/react'
 interface User {
   id: number,
 }
@@ -40,18 +41,9 @@ const columns: ColumnsType<User> = [
   },
 ];
 
-const getRandomuserParams = (params: any) => ({
-  results: params.pagination?.pageSize,
-  page: params.pagination?.current,
-  ...params,
-});
-
-export default ({pageTitle, pageTitles}: any) => {
+export default () => {
+  const {props} = usePage<{[key: string]: any}>()
   const t = useTranslate(state => state.t)
-  const setLocale = useTranslate(state => state.setLocale)
-  const locale = useTranslate(state => state.locale)
-  // const trigger = useTranslate(state => state.loadLang)
-  
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [tableParams, setTableParams] = useState({
@@ -63,6 +55,7 @@ export default ({pageTitle, pageTitles}: any) => {
   });
   const goToPage = useSideBar(state => state.goToPage)
   // const {pageTitle} = usePage().props
+
 
   const { notification } = App.useApp();
   const fetchData = () => {
@@ -99,7 +92,6 @@ export default ({pageTitle, pageTitles}: any) => {
     fetchData();
   }, [JSON.stringify(tableParams)]);
   const handleTableChange = (pagination: any, filters: any, sorter: any) => {
-    console.log(pagination, filters, sorter)
     setTableParams({
       pagination,
       filters,
@@ -111,19 +103,18 @@ export default ({pageTitle, pageTitles}: any) => {
       setData([]);
     }
   };
-  // console.log(t('a.word.get_me'), 'asd')
+  
   return (
     <Row>
+      <Col>
+      {t('lircrud::default.Call me')}
+        <code><pre className="max-w-50 whitespace-pre-wrap">{JSON.stringify(props)}</pre></code>
+      </Col>
       <Col span={24}>
-        <h1>{pageTitles} {t('modules.lircrud.default.fail_to_delete')} {t('default.word')} {t('default.on')}</h1>
-        <Button type="primary" onClick={() => {
-          setLocale(locale == 'en' ? 'kh' : 'en')
-          // const {trigger: triggerMe} = trigger()
-          // triggerMe()
-        }}>locale: {locale}</Button>
+        <h1>{t(props.pageTitles)}, {t('Callme')}</h1>
       </Col>
       <Col span={24} className={'mb-5'}>
-        <Button type="primary" onClick={() => goToPage('/admin/user/create')}>Add {pageTitle}</Button>
+        <Button type="primary" onClick={() => goToPage('/admin/user/create')}>{t('Add')} {t(props.pageTitle)}</Button>
       </Col>
       <Col span={24}>
       <Table

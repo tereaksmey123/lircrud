@@ -42,6 +42,7 @@ const Login = ({ rules }: Login) => {
 
           <Form.Item>
             <FormButton
+              buttonProps={{className: 'w-full'}}
               form={form}
               label='Login'
             />

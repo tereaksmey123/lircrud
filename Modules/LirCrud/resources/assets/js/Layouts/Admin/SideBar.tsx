@@ -35,6 +35,12 @@ export default function SideBar() {
         // onSelect={(e) => console.log(e)}
         items={[
           {
+            key: 'Setting',
+            // icon: <VideoCameraOutlined />,
+            label: 'Setting',
+            onClick: (e) => setActiveMenu(e, '/admin/setting')
+          },
+          {
             key: 'Authorization',
             icon: <UserOutlined />,
             label: 'Authorization',

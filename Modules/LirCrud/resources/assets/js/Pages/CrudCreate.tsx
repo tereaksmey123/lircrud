@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { useState, Suspense, lazy } from 'react';
 import Content from '@/Modules/LirCrud/Components/Content'
 // import Number from '@/Modules/LirCrud/Components/Field/Number'
 // import Text from '@/Modules/LirCrud/Components/Field/Text'
@@ -19,20 +19,31 @@ const CrudCreate = () => {
       <Content>
       <Form
         form={form}
-        // onFinish={handileCreate}
+        // onFieldsChange={}
         layout={'vertical'}
       >
         <Suspense fallback={'loading'}>
             {
               [
-                {type: 'Field.Number', name: 'phone', rules: [{required: true}]},
-                {type: 'Field.Text', name: 'first_name'},
+                {type: 'Fields.Number', name: 'phone', rules: [{required: true}]},
+                {type: 'Fields.Text', name: 'first_name1', component: {type: 'Fields.Text'}},
                 {type: 'Field.Text', name: 'last_name'},
 
               ].map(v => {
-                let InputComponent = FieldComponents[v.type]
-                // console.log(v.name)
-                return (<InputComponent key={v.name} {...v}/>)
+                const fields = FieldComponents
+                let Component =  Object.hasOwn(fields, v.type) ? fields[v.type] : () => (<></>)
+
+                if (v?.component?.type ?? false) {
+                  let ComponentWrapper = Object.hasOwn(fields, v?.component?.type ?? 'asda')
+                    ? fields[v?.component?.type ?? 0]
+                    : () => (<></>)
+
+                  return <ComponentWrapper key={v.name+(v?.component?.type ?? 'asd')}>
+                  <Component key={v.name} {...v}/>
+                </ComponentWrapper>
+                }
+                
+                return <Component key={v.name} {...v}/>
               })
             }
               {/* <Number></Number>
